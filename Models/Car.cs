@@ -7,7 +7,7 @@ namespace Parking.Models
         public int Id { get; set; }
         public string TypeName { get; set; }
         public string LicensePlate { get; set; }
-        public DateTime EntryTime { get; set; }
-        public DateTime DepartureTime { get; set; }
+        public string EntryTime { get; set; }
+        public string DepartureTime { get; set; }
     }
 }
