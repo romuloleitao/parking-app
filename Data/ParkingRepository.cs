@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Parking.Models;
 
 namespace Parking.Data
@@ -14,13 +15,12 @@ namespace Parking.Data
 
         public IEnumerable<Car> GetAllCars()
         {
-            return _context.Cars;
+            return _context.Cars.ToList();
         }
 
         public Car GetCarById(int id)
         {
-            var car = _context.Cars.Find(id);
-            return car;
+            return _context.Cars.FirstOrDefault(p => p.Id == id);
         }
     }
 }
