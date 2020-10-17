@@ -10,13 +10,19 @@ namespace Parking.Controllers
     [ApiController]
     public class CarsController : ControllerBase
     {
-        private readonly MockParkingRepository _mockParkingRepository = new MockParkingRepository();
+        private readonly IParkingRepository _parkingRepository;
+
+        // private readonly MockParkingRepository _mockParkingRepository = new MockParkingRepository();
+        public CarsController(IParkingRepository parkingRepository)
+        {
+            _parkingRepository = parkingRepository;
+        }
 
         //GET api/cars
         [HttpGet]
         public ActionResult <IEnumerable<Car>> GetAllCars()
         {
-            var cars = _mockParkingRepository.GetAllCars();
+            var cars = _parkingRepository.GetAllCars();
             return Ok(cars);
         }
 
@@ -24,7 +30,7 @@ namespace Parking.Controllers
         [HttpGet("{id}")]
         public ActionResult <Car> GetCarById(int id)
         {
-            var car = _mockParkingRepository.GetCarById(id);
+            var car = _parkingRepository.GetCarById(id);
             return Ok(car);
         }
     }
