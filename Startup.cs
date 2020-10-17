@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Parking.Data;
 
 namespace Parking
 {
@@ -17,6 +19,9 @@ namespace Parking
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<ParkingContext>(options => options.UseSqlServer
+                (Configuration.GetConnectionString("ParkingConnection")));
+
             services.AddControllers();
         }
 
