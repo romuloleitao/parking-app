@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Parking.Data;
+using Parking.Dtos;
 using Parking.Models;
 
 namespace Parking.Controllers
@@ -11,27 +13,34 @@ namespace Parking.Controllers
     public class CarsController : ControllerBase
     {
         private readonly IParkingRepository _parkingRepository;
+        private readonly IMapper _mapper;
 
-        // private readonly MockParkingRepository _mockParkingRepository = new MockParkingRepository();
-        public CarsController(IParkingRepository parkingRepository)
+        public CarsController(IParkingRepository parkingRepository, IMapper mapper)
         {
             _parkingRepository = parkingRepository;
+            _mapper = mapper;
         }
 
         //GET api/cars
         [HttpGet]
-        public ActionResult <IEnumerable<Car>> GetAllCars()
+        public ActionResult<IEnumerable<CarReadDto>> GetAllCars()
         {
             var cars = _parkingRepository.GetAllCars();
-            return Ok(cars);
+            return Ok(_mapper.Map<IEnumerable<CarReadDto>>(cars));
         }
 
         //GET api/cars/{id}
         [HttpGet("{id}")]
-        public ActionResult <Car> GetCarById(int id)
+        public ActionResult<CarReadDto> GetCarById(int id)
         {
             var car = _parkingRepository.GetCarById(id);
-            return Ok(car);
+
+            if (car != null)
+            {
+                return Ok(_mapper.Map<CarReadDto>(car));
+            }
+
+            return NotFound();
         }
     }
 }
