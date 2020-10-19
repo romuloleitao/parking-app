@@ -6,6 +6,11 @@ namespace Parking.Data
 {
     public class MockParkingRepository : IParkingRepository
     {
+        public void CreateCar(Car car)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<Car> GetAllCars()
         {
             var cars = new List<Car>
@@ -53,6 +58,11 @@ namespace Parking.Data
                 EntryTime = DateTime.Now.ToString("HH:mm"),
                 DepartureTime = DateTime.Now.ToString("HH:mm")
             };
+        }
+
+        public bool SaveChanges()
+        {
+            throw new NotImplementedException();
         }
     }
 }
