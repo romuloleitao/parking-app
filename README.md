@@ -1,2 +1,2 @@
 # parking-netcore
-Full .NET Core WEB API
+Full .NET Core WEB API with AutoMapper
