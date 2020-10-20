@@ -8,7 +8,9 @@ namespace Parking.Profiles
     {
         public ParkingProfile()
         {
+            //Source => Target
             CreateMap<Car, CarReadDto>();
+            CreateMap<CarCreateDto, Car>();
         }
     }
 }

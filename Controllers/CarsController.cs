@@ -42,5 +42,18 @@ namespace Parking.Controllers
 
             return NotFound();
         }
+
+        //POST api/cars
+        [HttpPost]
+        public ActionResult <CarReadDto> CreateCar(CarCreateDto carCreateDto)
+        {
+            var carModel = _mapper.Map<Car>(carCreateDto);
+            _parkingRepository.CreateCar(carModel);
+            _parkingRepository.SaveChanges();
+
+            var carReadDto = _mapper.Map<CarReadDto>(carModel);
+
+            return Ok(carReadDto);
+        }
     }
 }
