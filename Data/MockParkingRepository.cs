@@ -11,6 +11,11 @@ namespace Parking.Data
             throw new NotImplementedException();
         }
 
+        public void DeleteCar(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<Car> GetAllCars()
         {
             var cars = new List<Car>

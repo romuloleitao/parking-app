@@ -75,7 +75,7 @@ namespace Parking.Controllers
             return NoContent();
         }
 
-        //PATCH api/car/{id}
+        //PATCH api/cars/{id}
         [HttpPatch("{id}")]
         public ActionResult PartialCarUpdate(int id, JsonPatchDocument<CarUpdateDto> patchDoc)
         {
@@ -89,13 +89,23 @@ namespace Parking.Controllers
             var carToPatch = _mapper.Map<CarUpdateDto>(carModelFromRepo);
             patchDoc.ApplyTo(carToPatch, ModelState);
 
-            if(!TryValidateModel(carToPatch))
+            if (!TryValidateModel(carToPatch))
             {
                 return ValidationProblem(ModelState);
             }
 
             _mapper.Map(carToPatch, carModelFromRepo);
             _parkingRepository.UpdateCar(carModelFromRepo);
+            _parkingRepository.SaveChanges();
+
+            return NoContent();
+        }
+
+        //DELETE api/cars/{id}
+        [HttpDelete("{id}")]
+        public ActionResult DeleteCar(int id)
+        {
+            _parkingRepository.DeleteCar(id);
             _parkingRepository.SaveChanges();
 
             return NoContent();

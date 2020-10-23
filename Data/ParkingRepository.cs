@@ -24,6 +24,12 @@ namespace Parking.Data
             _context.Cars.Add(car);
         }
 
+        public void DeleteCar(int id)
+        {
+            var car = _context.Cars.FirstOrDefault(p => p.Id == id);
+            _context.Cars.Remove(car);
+        }
+
         public IEnumerable<Car> GetAllCars()
         {
             return _context.Cars.ToList();
