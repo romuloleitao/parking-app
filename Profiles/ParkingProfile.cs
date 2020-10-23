@@ -11,6 +11,7 @@ namespace Parking.Profiles
             //Source => Target
             CreateMap<Car, CarReadDto>();
             CreateMap<CarCreateDto, Car>();
+            CreateMap<CarUpdateDto, Car>();
         }
     }
 }

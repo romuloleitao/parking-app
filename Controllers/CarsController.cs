@@ -26,11 +26,12 @@ namespace Parking.Controllers
         public ActionResult<IEnumerable<CarReadDto>> GetAllCars()
         {
             var cars = _parkingRepository.GetAllCars();
+
             return Ok(_mapper.Map<IEnumerable<CarReadDto>>(cars));
         }
 
         //GET api/cars/{id}
-        [HttpGet("{id}", Name="GetCarById")]
+        [HttpGet("{id}", Name = "GetCarById")]
         public ActionResult<CarReadDto> GetCarById(int id)
         {
             var car = _parkingRepository.GetCarById(id);
@@ -45,15 +46,33 @@ namespace Parking.Controllers
 
         //POST api/cars
         [HttpPost]
-        public ActionResult <CarReadDto> CreateCar(CarCreateDto carCreateDto)
+        public ActionResult<CarReadDto> CreateCar(CarCreateDto carCreateDto)
         {
             var carModel = _mapper.Map<Car>(carCreateDto);
             _parkingRepository.CreateCar(carModel);
             _parkingRepository.SaveChanges();
-
             var carReadDto = _mapper.Map<CarReadDto>(carModel);
 
-            return CreatedAtRoute(nameof(GetCarById), new {Id = carReadDto.Id}, carReadDto);
+            return CreatedAtRoute(nameof(GetCarById), new { Id = carReadDto.Id }, carReadDto);
+        }
+
+        //PUT api/cars/{id}
+        [HttpPut("{id}")]
+        public ActionResult UpdateCar(int id, CarUpdateDto carUpdateDto)
+        {
+            var carModelFromRepo = _parkingRepository.GetCarById(id);
+
+            if (carModelFromRepo == null)
+            {
+                return NotFound();
+            }
+
+            _mapper.Map(carUpdateDto, carModelFromRepo);
+            _parkingRepository.UpdateCar(carModelFromRepo);
+            _parkingRepository.SaveChanges();
+
+            return NoContent();
+
         }
     }
 }
