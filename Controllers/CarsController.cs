@@ -30,7 +30,7 @@ namespace Parking.Controllers
         }
 
         //GET api/cars/{id}
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name="GetCarById")]
         public ActionResult<CarReadDto> GetCarById(int id)
         {
             var car = _parkingRepository.GetCarById(id);
@@ -53,7 +53,8 @@ namespace Parking.Controllers
 
             var carReadDto = _mapper.Map<CarReadDto>(carModel);
 
-            return Ok(carReadDto);
+            return CreatedAtRoute(nameof(GetCarById), new {Id = carReadDto.Id}, carReadDto);
+            // return Ok(carReadDto);
         }
     }
 }
