@@ -54,7 +54,6 @@ namespace Parking.Controllers
             var carReadDto = _mapper.Map<CarReadDto>(carModel);
 
             return CreatedAtRoute(nameof(GetCarById), new {Id = carReadDto.Id}, carReadDto);
-            // return Ok(carReadDto);
         }
     }
 }
