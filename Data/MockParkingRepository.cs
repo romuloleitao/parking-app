@@ -64,5 +64,10 @@ namespace Parking.Data
         {
             throw new NotImplementedException();
         }
+
+        public void UpdateCar(Car car)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
