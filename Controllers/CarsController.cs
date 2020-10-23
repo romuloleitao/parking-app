@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using AutoMapper;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Parking.Data;
 using Parking.Dtos;
@@ -72,7 +73,32 @@ namespace Parking.Controllers
             _parkingRepository.SaveChanges();
 
             return NoContent();
+        }
 
+        //PATCH api/car/{id}
+        [HttpPatch("{id}")]
+        public ActionResult PartialCarUpdate(int id, JsonPatchDocument<CarUpdateDto> patchDoc)
+        {
+            var carModelFromRepo = _parkingRepository.GetCarById(id);
+
+            if (carModelFromRepo == null)
+            {
+                return NotFound();
+            }
+
+            var carToPatch = _mapper.Map<CarUpdateDto>(carModelFromRepo);
+            patchDoc.ApplyTo(carToPatch, ModelState);
+
+            if(!TryValidateModel(carToPatch))
+            {
+                return ValidationProblem(ModelState);
+            }
+
+            _mapper.Map(carToPatch, carModelFromRepo);
+            _parkingRepository.UpdateCar(carModelFromRepo);
+            _parkingRepository.SaveChanges();
+
+            return NoContent();
         }
     }
 }

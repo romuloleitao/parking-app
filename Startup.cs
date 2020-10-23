@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Parking.Data;
+using Newtonsoft.Json.Serialization;
 
 namespace Parking
 {
@@ -24,7 +25,9 @@ namespace Parking
             services.AddDbContext<ParkingContext>(options => options.UseSqlServer
                 (Configuration.GetConnectionString("ParkingConnection")));
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(s => {
+                s.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            });
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

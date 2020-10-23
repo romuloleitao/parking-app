@@ -41,7 +41,6 @@ namespace Parking.Data
 
         public void UpdateCar(Car car)
         {
-            //Nothing
         }
     }
 }
